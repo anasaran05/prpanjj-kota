@@ -14,7 +14,7 @@ const barlowCondensed = Barlow_Condensed({
 })
 
 export const metadata: Metadata = {
-  title: 'Prapanjj Kota — Founder · Diamantaire · Builder',
+  title: 'Prapanjj Kota — Founder · Diamantaire · Investor',
   description: 'The personal site of Prapanjj Kota, Founder & CEO of Réia Diamonds.',
   icons: {
     icon: '/icon.svg',

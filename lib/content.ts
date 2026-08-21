@@ -1,7 +1,7 @@
 export const content = {
   hero: {
     titleLine1: 'Diamantaire',
-    titleLine2: '& Builder',
+    titleLine2: '& Investor',
     tagline: 'Building Réia Diamonds for the next generation.',
     location: 'BASED IN BENGALURU, INDIA',
     badges: [
@@ -57,7 +57,7 @@ export const content = {
         number: '03',
         title: 'Accessible Structural Luxury',
         desc: 'We are pioneering India’s structural shift toward ethical, lab-grown diamonds — chemically and optically identical to mined stones, crafted without artificial scarcity.',
-        image: '/Structural Luxury.png',
+        image: '/Structural Luxury.jpg',
       },
     ],
   },
@@ -165,7 +165,7 @@ export const content = {
     ],
   },
   connect: {
-    label: '07 / Connect',
+    label: 'Connect',
     title: 'Let’s build what comes next.',
     body: 'Hit me up at 3am and I’ll be ready to explore a new corner of the globe — or talk your ear off about what we’re building next.',
     linkedin: 'https://www.linkedin.com/in/prapanjj-s-k-kota/',

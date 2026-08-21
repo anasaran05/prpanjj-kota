@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, Diamond, ExternalLink, Menu, X } from 'lucide-react'
+import { ArrowUpRight, Check, Diamond, ExternalLink, Menu, Send, Sparkles, X } from 'lucide-react'
 import { content } from '@/lib/content'
 import { IntroSplash } from '@/components/intro-splash'
 
@@ -249,7 +249,7 @@ export function Hero({ isReady = false }: { isReady?: boolean }) {
           >
             <Image
               src="/prapanj.png"
-              alt="Prapanjj Kota — Diamantaire & Builder"
+              alt="Prapanjj Kota — Diamantaire & Investor"
               width={540}
               height={640}
               priority
@@ -634,25 +634,158 @@ export function Press() {
 }
 
 export function Closing() {
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'submitted'>('idle')
+  const [topic, setTopic] = useState('Partnership')
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+
+  const topics = ['Partnership', 'Investment', 'Speaking / Press', 'General']
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formData.name || !formData.email) return
+    setFormStatus('submitting')
+    setTimeout(() => {
+      setFormStatus('submitted')
+    }, 900)
+  }
+
   return (
     <section id="contact" className="closing dark-section">
       <div className="section-frame section-space closing-inner">
         <FacetGlint />
-        <SectionLabel>{content.connect.label}</SectionLabel>
-        <h2>{content.connect.title}</h2>
-        <p>{content.connect.body}</p>
+        
+        <div className="closing-grid">
+          <div className="closing-content">
+            <SectionLabel>{content.connect.label}</SectionLabel>
+            <h2>{content.connect.title}</h2>
+            <p>{content.connect.body}</p>
 
-        <a
-          className="cta diamond-cta-btn"
-          href={content.connect.linkedin}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span className="diamond-shimmer-sweep" />
-          <Diamond size={15} className="diamond-btn-sparkle" strokeWidth={2.2} />
-          <span>Connect on LinkedIn</span>
-          <ArrowUpRight size={17} />
-        </a>
+            <div className="closing-actions">
+              <a
+                className="cta diamond-cta-btn"
+                href={content.connect.linkedin}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="diamond-shimmer-sweep" />
+                <Diamond size={15} className="diamond-btn-sparkle" strokeWidth={2.2} />
+                <span>Connect on LinkedIn</span>
+                <ArrowUpRight size={17} />
+              </a>
+            </div>
+          </div>
+
+          <div className="closing-form-container">
+            <div className="contact-form-card">
+              <div className="contact-form-header">
+                <div className="contact-badge">
+                  <span className="contact-badge-dot" />
+                  <span>Direct Message</span>
+                </div>
+                <h3 className="contact-form-title">Start a Conversation</h3>
+              </div>
+
+              {formStatus === 'submitted' ? (
+                <motion.div 
+                  className="contact-success-state"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className="contact-success-icon">
+                    <Check size={28} />
+                  </div>
+                  <h4>Message Dispatched</h4>
+                  <p>Thank you, {formData.name || 'there'}. I’ll review your note and get back to you shortly.</p>
+                  <button 
+                    type="button" 
+                    className="contact-reset-btn"
+                    onClick={() => {
+                      setFormStatus('idle')
+                      setFormData({ name: '', email: '', message: '' })
+                    }}
+                  >
+                    Send another note
+                  </button>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="contact-form">
+                  <div className="contact-topics-wrapper">
+                    <span className="contact-field-label">Topic</span>
+                    <div className="contact-topic-chips" role="radiogroup" aria-label="Select inquiry topic">
+                      {topics.map((t) => (
+                        <button
+                          key={t}
+                          type="button"
+                          className={`contact-topic-chip ${topic === t ? 'active' : ''}`}
+                          onClick={() => setTopic(t)}
+                          role="radio"
+                          aria-checked={topic === t}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="contact-fields-row">
+                    <div className="contact-form-group">
+                      <label htmlFor="contact-name">Name</label>
+                      <input
+                        id="contact-name"
+                        type="text"
+                        required
+                        placeholder="Your Name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="contact-form-input"
+                      />
+                    </div>
+                    <div className="contact-form-group">
+                      <label htmlFor="contact-email">Email</label>
+                      <input
+                        id="contact-email"
+                        type="email"
+                        required
+                        placeholder="name@domain.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="contact-form-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="contact-form-group">
+                    <label htmlFor="contact-message">Message</label>
+                    <textarea
+                      id="contact-message"
+                      rows={3}
+                      placeholder="Tell me about your idea or inquiry..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="contact-form-textarea"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={formStatus === 'submitting'}
+                    className="contact-submit-btn"
+                  >
+                    {formStatus === 'submitting' ? (
+                      <span className="contact-btn-loader">Sending...</span>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send size={15} />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
 
         {/* Massive Editorial Wordmark */}
         <div className="footer-wordmark-container" aria-hidden="true">
@@ -661,7 +794,7 @@ export function Closing() {
 
         <footer>
           <span>© {new Date().getFullYear()} Prapanjj Kota</span>
-          <span>Diamantaire & Builder · Founder & CEO, Réia</span>
+          <span>Diamantaire & Investor · Founder & CEO, Réia</span>
         </footer>
       </div>
     </section>

@@ -108,7 +108,7 @@ export function IntroSplash({ onComplete, onStartExit }: IntroSplashProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 1.35, ease: [0.16, 1, 0.3, 1] }}
               >
-                BUILDER
+               Investor
               </motion.span>
             </div>
 
